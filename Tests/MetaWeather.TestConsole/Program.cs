@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -9,7 +10,7 @@ namespace MetaWeather.TestConsole
         private static IHost _hosting;
 
         public static IHost Hosting => _hosting ??= CreateHostBuilder(Environment.GetCommandLineArgs()).Build();
-
+        public static IServiceProvider Services => Hosting.Services;
         public static IHostBuilder CreateHostBuilder(string[] args) => Host
             .CreateDefaultBuilder(args)
             .ConfigureServices(ConfigureServices);
@@ -19,9 +20,14 @@ namespace MetaWeather.TestConsole
             
         }
 
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            using var host = Hosting;
+            await host.StartAsync();
+
+            Console.WriteLine("Завершено!");
+            Console.ReadLine();
+            await host.StopAsync();
         }
     }
 }
