@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 
 namespace MetaWeather
 {
@@ -11,10 +7,26 @@ namespace MetaWeather
     /// </summary>
     public class WeatherLocation
     {
-        public int woeid { get; set; }
-        public string title { get; set; }
-        public string location_type { get; set; }
-        public string latt_long { get; set; }
-        public int distance { get; set; }
+        //Указание в атрибуте имени в документе Json
+        [JsonPropertyName("woeid")]
+        public int Id { get; set; }
+        [JsonPropertyName("title")]
+        public string Title { get; set; }
+        [JsonPropertyName("location_type")]
+        public LocationType Type { get; set; }
+        [JsonPropertyName("latt_long")]
+        public string Location { get; set; }
+        [JsonPropertyName("distance")]
+        public int Distance { get; set; }
+    }
+
+    public enum LocationType
+    {
+        City,
+        Region,
+        State,
+        Province,
+        Country,
+        Continent
     }
 }
