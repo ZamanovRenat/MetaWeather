@@ -20,6 +20,11 @@ namespace MetaWeather
         public (double Latitude, double Longitude) Location { get; set; }
         [JsonPropertyName("distance")]
         public int Distance { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Title}[{Id}]({Type}):{Location} ({Distance})";
+        }
     }
 
     public enum LocationType

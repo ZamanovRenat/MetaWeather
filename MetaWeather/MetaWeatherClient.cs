@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.Globalization;
+using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -31,10 +32,22 @@ namespace MetaWeather
         /// </summary>
         /// <param name="Name"></param>
         /// <returns></returns>
-        public async Task<WeatherLocation[]> GetLocationByName(string Name, CancellationToken Cancel = default)
+        public async Task<WeatherLocation[]> GetLocation(string Name, CancellationToken Cancel = default)
         {
             return await _client
                 .GetFromJsonAsync<WeatherLocation[]>($"/api/location/search/?query={Name}", /*__JsonOptions,*/ Cancel)
+                .ConfigureAwait(false);
+        }
+        /// <summary>
+        /// Метод получения местоположения по координатам
+        /// </summary>
+        /// <param name="Location"></param>
+        /// <param name="Cancel"></param>
+        /// <returns></returns>
+        public async Task<WeatherLocation[]> GetLocation((double Latitude, double Longitude) Location, CancellationToken Cancel = default)
+        {
+            return await _client
+                .GetFromJsonAsync<WeatherLocation[]>($"/api/location/search/?lattlong={Location.Latitude.ToString(CultureInfo.InvariantCulture)},{Location.Longitude.ToString(CultureInfo.InvariantCulture)}", Cancel)
                 .ConfigureAwait(false);
         }
     }
