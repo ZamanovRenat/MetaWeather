@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
+using MetaWeather.Models;
 
 namespace MetaWeather
 {
@@ -49,6 +50,16 @@ namespace MetaWeather
             return await _client
                 .GetFromJsonAsync<WeatherLocation[]>($"/api/location/search/?lattlong={Location.Latitude.ToString(CultureInfo.InvariantCulture)},{Location.Longitude.ToString(CultureInfo.InvariantCulture)}", Cancel)
                 .ConfigureAwait(false);
+        }
+        /// <summary>
+        /// Получение информации о местоположении по <param name="WoeId"></param>
+        /// </summary>
+        /// <param name="WoeId"></param>
+        /// <param name="Cancel"></param>
+        /// <returns></returns>
+        public async Task<LocationInfo> GetInfo(int WoeId, CancellationToken Cancel = default)
+        {
+            return await _client.GetFromJsonAsync<LocationInfo>($"/api/location/{WoeId}", Cancel).ConfigureAwait(false);
         }
     }
 }
