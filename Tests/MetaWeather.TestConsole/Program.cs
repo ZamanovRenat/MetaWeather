@@ -31,7 +31,7 @@ namespace MetaWeather.TestConsole
 
             var locations = await weather.GetLocation(location[0].Coordinates);
 
-            var info = await weather.GetInfo(location[0].Id);
+            var info = await weather.GetInfo(location[0]);
 
             Console.WriteLine("Завершено!");
             Console.ReadLine();
