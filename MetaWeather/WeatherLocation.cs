@@ -13,9 +13,11 @@ namespace MetaWeather
         [JsonPropertyName("title")]
         public string Title { get; set; }
         [JsonPropertyName("location_type")]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public LocationType Type { get; set; }
         [JsonPropertyName("latt_long")]
-        public string Location { get; set; }
+        [JsonConverter(typeof(JsonCoordinateConverter))]
+        public (double Latitude, double Longitude) Location { get; set; }
         [JsonPropertyName("distance")]
         public int Distance { get; set; }
     }
