@@ -33,6 +33,8 @@ namespace MetaWeather.TestConsole
 
             var info = await weather.GetInfo(location[0]);
 
+            var weather_info = await weather.GetWeather(location[0].Id, DateTime.Now);
+
             Console.WriteLine("Завершено!");
             Console.ReadLine();
             await host.StopAsync();

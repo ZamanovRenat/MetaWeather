@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -64,5 +65,24 @@ namespace MetaWeather
 
         public Task<LocationInfo> GetInfo(WeatherLocation Location, CancellationToken Cancel = default) =>
             GetInfo(Location.Id, Cancel);
+        /// <summary>
+        /// Получение информации о погоде
+        /// </summary>
+        /// <param name="WoeId"></param>
+        /// <param name="Time"></param>
+        /// <param name="Cancel"></param>
+        /// <returns></returns>
+        public async Task<WeatherInfo[]> GetWeather(int WoeId, DateTime Time, CancellationToken Cancel = default)
+        {
+            return await _client
+                .GetFromJsonAsync<WeatherInfo[]>($"/api/location/{WoeId}/{Time:yyyy}/{Time:MM}/{Time:dd}/", Cancel)
+                .ConfigureAwait(false);
+        }
+
+        public Task<WeatherInfo[]> GetWeather(LocationInfo Location, DateTime Time, CancellationToken Cancel = default) =>
+            GetWeather(Location.Id, Time, Cancel);
+
+        public Task<WeatherInfo[]> GetWeather(WeatherLocation Location, DateTime Time, CancellationToken Cancel = default) =>
+            GetWeather(Location.Id, Time, Cancel);
     }
 }
